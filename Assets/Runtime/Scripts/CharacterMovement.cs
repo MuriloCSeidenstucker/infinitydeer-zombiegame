@@ -11,6 +11,8 @@ public class CharacterMovement : MonoBehaviour
     private Quaternion _currentRotation;
     private Vector3 _currentVelocity;
 
+    public Vector3 CurrentVelocity { get { return _currentVelocity; } }
+
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
