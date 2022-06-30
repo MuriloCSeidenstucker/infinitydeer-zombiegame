@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
@@ -10,7 +11,9 @@ public class CharacterMovement : MonoBehaviour
     private Rigidbody _rigidbody;
     private Quaternion _currentRotation;
     private Vector3 _currentVelocity;
+    Vector3 _rotationInLastFrame;
 
+    public Quaternion CurrentRotation { get { return _currentRotation; } }
     public Vector3 CurrentVelocity { get { return _currentVelocity; } }
 
     private void Awake()
@@ -36,6 +39,14 @@ public class CharacterMovement : MonoBehaviour
         _rigidbody.MoveRotation(_currentRotation.normalized);
     }
 
+    private Vector3 SetDefaultRotation()
+    {
+        if (_currentVelocity == Vector3.zero) return _rotationInLastFrame;
+
+        _rotationInLastFrame = _currentVelocity;
+        return _currentVelocity;
+    }
+
     public void ProcessMovementInput(Vector3 movementInput)
     {
         Vector3 desiredVelocity = movementInput * _movementSpeed;
@@ -44,8 +55,15 @@ public class CharacterMovement : MonoBehaviour
 
     public void ProcessRotationInput(Vector3 rotationInput)
     {
-        if (rotationInput == Vector3.zero) return;
-        
+        if (rotationInput == Vector3.zero)
+        {
+            rotationInput = SetDefaultRotation();
+        }
+        else
+        {
+            _rotationInLastFrame = rotationInput;
+        }
+
         Vector3 correctedRotationInput = new Vector3(rotationInput.x, 0f, rotationInput.z);
         Quaternion desiredRotation = Quaternion.LookRotation(correctedRotationInput);
         _currentRotation = Quaternion.Slerp(_currentRotation, desiredRotation, _rotationAcc * Time.deltaTime);
