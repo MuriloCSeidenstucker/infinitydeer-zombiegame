@@ -17,6 +17,8 @@ public class PlayerController : MonoBehaviour
 
     public event Action PlayerDeathEvent;
 
+    public bool PlayerActivated { get; private set; }
+
     private void Awake()
     {
         _playerMovement = GetComponent<CharacterMovement>();
@@ -32,6 +34,8 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        if (!PlayerActivated) return;
+
         bool fireInput = _playerInput.GetFireInput();
         Vector3 movementInput = _playerInput.GetMovementInput();
         Vector3 rotationInput = _autoAim.LookAtTarget(fireInput);
@@ -49,10 +53,13 @@ public class PlayerController : MonoBehaviour
     {
         _playerMovement.StopImmediately();
         _collider.enabled = false;
-        enabled = false;
+        DisablePlayer();
         
         PlayerDeathEvent?.Invoke();
     }
+
+    public void EnablePlayer() => PlayerActivated = true;
+    public void DisablePlayer() => PlayerActivated = false;
 
     private void OnDestroy()
     {

@@ -95,9 +95,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d9a6b0a379522c4d8f3d31d0c21c532, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _movementSpeed: 3
-  _movementAcc: 100
-  _rotationAcc: 10
+  <MovementParameters>k__BackingField: {fileID: 11400000, guid: d47287dd5bdf0ff40b14e1f2144070b0, type: 2}
 --- !u!114 &4868239967687108704
 MonoBehaviour:
   m_ObjectHideFlags: 0

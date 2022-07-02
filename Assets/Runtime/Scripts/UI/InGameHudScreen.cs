@@ -19,11 +19,6 @@ public class InGameHudScreen : UIScreen
     [SerializeField] private Image _healthBarImg;
     [SerializeField] private Gradient _gradient;
 
-    private void Start()
-    {
-        _healthBar.maxValue = _player.DefaultHealth;
-    }
-
     private void LateUpdate()
     {
         _scoreText.text = _gameMode.Score.ToString();
@@ -32,7 +27,7 @@ public class InGameHudScreen : UIScreen
         float percent = (float)_player.Health / _player.DefaultHealth;
         _healthBarImg.color = _gradient.Evaluate(percent);
 
-        if (_waveSpawner.Preparing)
+        if (_waveSpawner.WaveComing)
         {
             _timerText.enabled = true;
             _timerText.text = $"Wave coming in {_waveSpawner.Timer} seconds";
@@ -44,5 +39,10 @@ public class InGameHudScreen : UIScreen
             _enemiesLeftText.text = $"{_waveSpawner.EnemiesLeft} enemies left";
             _timerText.enabled = false;
         }
+    }
+
+    public override void OnShow()
+    {
+        _healthBar.maxValue = _player.DefaultHealth;
     }
 }

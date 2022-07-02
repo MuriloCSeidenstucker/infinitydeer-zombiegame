@@ -16,23 +16,24 @@ public class WaveSpawner : MonoBehaviour
     private int _currentWaveLevel = 1;
     private int _currentWaveValue;
     private float _timer;
-
-    private bool preparing;
-    private bool hordeActive;
+    private bool _waveComing = false;
+    private bool _waveInProgress = false;
 
     public PlayerController Player => _player;
 
     public int EnemiesLeft => _currentWaveEnemies.Count;
     public int CurrentWaveLevel => _currentWaveLevel;
     public int Timer { get { return (int)_timer; } }
-    public bool Preparing { get { return preparing; } }
-    public bool HordeActive { get { return hordeActive; } }
+    public bool WaveComing { get { return _waveComing; } }
+    public bool WaveInProgress { get { return _waveInProgress; } }
+
+    public bool ActivateWaves { get; private set; }
 
     private void Awake()
     {
         _enemiesPool.Initialize();
-        preparing = true;
-        hordeActive = false;
+        _waveComing = true;
+        _waveInProgress = false;
     }
 
     private void Start()
@@ -43,36 +44,30 @@ public class WaveSpawner : MonoBehaviour
 
     private void Update()
     {
-        if (preparing)
-        {
-            // não há inimigos
+        if (!ActivateWaves) return;
 
-            // timer está ativo
+        if (_waveComing)
+        {
             _timer -= Time.deltaTime;
 
-            // ao final do timer, ativa a horda
             if (Timer <= 0)
             {
                 _timer = _timeBetweenWaves;
-                preparing = false;
+                _waveComing = false;
 
                 _currentWaveValue = _currentWaveLevel * _initialWaveValue;
                 SpawnEnemies();
-                hordeActive = true;
+                _waveInProgress = true;
             }
         }
 
-        if (hordeActive)
+        if (_waveInProgress)
         {
-            // haverá inimgos
-            // timer inativo
-
-            // quando não houver inimigos, ativa o em preparação
             if (_currentWaveEnemies.Count == 0)
             {
                 _currentWaveLevel++;
-                hordeActive = false;
-                preparing = true;
+                _waveInProgress = false;
+                _waveComing = true;
             }
         }
     }
@@ -105,4 +100,5 @@ public class WaveSpawner : MonoBehaviour
     }
 
     public void IncrementScore() => _gameMode.IncrementScore();
+    public void Activate() => ActivateWaves = true;
 }

@@ -1,20 +1,17 @@
-using System;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
 public class CharacterMovement : MonoBehaviour
 {
-    [SerializeField] private float _movementSpeed = 10.0f;
-    [SerializeField] private float _movementAcc = 100.0f;
-    [SerializeField] private float _rotationAcc = 100.0f;
-
     private Rigidbody _rigidbody;
     private Quaternion _currentRotation;
     private Vector3 _currentVelocity;
     Vector3 _rotationInLastFrame;
 
-    public Quaternion CurrentRotation { get { return _currentRotation; } }
     public Vector3 CurrentVelocity { get { return _currentVelocity; } }
+
+    [field: SerializeField]
+    public CharacterParameters MovementParameters { get; set; }
 
     private void Awake()
     {
@@ -49,8 +46,8 @@ public class CharacterMovement : MonoBehaviour
 
     public void ProcessMovementInput(Vector3 movementInput)
     {
-        Vector3 desiredVelocity = movementInput.normalized * _movementSpeed;
-        _currentVelocity = Vector3.MoveTowards(_currentVelocity, desiredVelocity, _movementAcc * Time.deltaTime);
+        Vector3 desiredVelocity = movementInput.normalized * MovementParameters.MovementSpeed;
+        _currentVelocity = Vector3.MoveTowards(_currentVelocity, desiredVelocity, MovementParameters.MovementAcc * Time.deltaTime);
     }
 
     public void ProcessRotationInput(Vector3 rotationInput)
@@ -66,7 +63,7 @@ public class CharacterMovement : MonoBehaviour
 
         Vector3 correctedRotationInput = new Vector3(rotationInput.x, 0f, rotationInput.z);
         Quaternion desiredRotation = Quaternion.LookRotation(correctedRotationInput);
-        _currentRotation = Quaternion.Slerp(_currentRotation, desiredRotation, _rotationAcc * Time.deltaTime);
+        _currentRotation = Quaternion.Slerp(_currentRotation, desiredRotation, MovementParameters.RotationAcc * Time.deltaTime);
     }
 
     public void StopImmediately()

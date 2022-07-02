@@ -14,9 +14,11 @@ public class GameOverScreen : UIScreen
     [SerializeField] private TextMeshProUGUI _bestScoreText;
     [SerializeField] private TextMeshProUGUI _highestWavesSurvivedText;
 
-    private void LateUpdate()
+    public override void OnShow()
     {
         _lastScoreText.text = $"Last Score: {_gameMode.Score}";
-        _wavesSurvivedText.text = $"Waves Survived: {_waveSpawner.CurrentWaveLevel}";
+        _wavesSurvivedText.text = $"Waves Survived: {(_waveSpawner.CurrentWaveLevel - 1)}";
+        _bestScoreText.text = $"Best Score: {_gameMode.CurrentSave.BestScore}";
+        _highestWavesSurvivedText.text = $"Highest Waves Survived: {_gameMode.CurrentSave.HighestWavesSurvived}";
     }
 }

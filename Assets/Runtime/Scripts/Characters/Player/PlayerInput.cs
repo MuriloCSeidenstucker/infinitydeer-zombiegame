@@ -1,36 +1,34 @@
 using UnityEngine;
-using UnityStandardAssets.CrossPlatformInput;
 
 public class PlayerInput : MonoBehaviour
 {
-    private struct PlayerInputConstants
+    private PlayerInputActions _inputActions;
+
+    private void Awake()
     {
-        public const string Horizontal = "Horizontal";
-        public const string Vertical = "Vertical";
-        public const string Fire = "Fire1";
+        _inputActions = new PlayerInputActions();
+    }
+
+    private void OnEnable()
+    {
+        _inputActions.PlayerController.Enable();
     }
 
     public Vector3 GetMovementInput()
     {
-        float horizontalInput = Input.GetAxisRaw(PlayerInputConstants.Horizontal);
+        Vector2 rawInput = _inputActions.PlayerController.Movement.ReadValue<Vector2>();
+        Vector3 processedInput = new Vector3(rawInput.x, 0f, rawInput.y);
 
-        if (Mathf.Approximately(horizontalInput, 0f))
-        {
-            horizontalInput = CrossPlatformInputManager.GetAxisRaw(PlayerInputConstants.Horizontal);
-        }
-
-        float verticalInput = Input.GetAxisRaw(PlayerInputConstants.Vertical);
-
-        if (Mathf.Approximately(verticalInput, 0f))
-        {
-            verticalInput = CrossPlatformInputManager.GetAxisRaw(PlayerInputConstants.Vertical);
-        }
-
-        return new Vector3(horizontalInput, 0f, verticalInput);
+        return processedInput;
     }
 
     public bool GetFireInput()
     {
-        return CrossPlatformInputManager.GetButton(PlayerInputConstants.Fire);
+        return _inputActions.PlayerController.Fire.IsPressed();
+    }
+
+    private void OnDisable()
+    {
+        _inputActions.PlayerController.Disable();
     }
 }
