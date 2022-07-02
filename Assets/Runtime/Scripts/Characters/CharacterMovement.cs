@@ -49,7 +49,7 @@ public class CharacterMovement : MonoBehaviour
 
     public void ProcessMovementInput(Vector3 movementInput)
     {
-        Vector3 desiredVelocity = movementInput * _movementSpeed;
+        Vector3 desiredVelocity = movementInput.normalized * _movementSpeed;
         _currentVelocity = Vector3.MoveTowards(_currentVelocity, desiredVelocity, _movementAcc * Time.deltaTime);
     }
 
@@ -67,5 +67,10 @@ public class CharacterMovement : MonoBehaviour
         Vector3 correctedRotationInput = new Vector3(rotationInput.x, 0f, rotationInput.z);
         Quaternion desiredRotation = Quaternion.LookRotation(correctedRotationInput);
         _currentRotation = Quaternion.Slerp(_currentRotation, desiredRotation, _rotationAcc * Time.deltaTime);
+    }
+
+    public void StopImmediately()
+    {
+        _currentVelocity = Vector3.zero;
     }
 }

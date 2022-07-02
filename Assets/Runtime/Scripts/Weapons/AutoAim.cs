@@ -55,7 +55,7 @@ public class AutoAim : MonoBehaviour
             radius: _range,
             angle: _angle,
             origin: transform,
-            target: target.ThisTransform)) return false;
+            target: target.Position)) return false;
 
         return true;
     }
@@ -84,7 +84,7 @@ public class AutoAim : MonoBehaviour
         var leftDir = Quaternion.Euler(0, -_angle * 0.5f, 0) * transform.forward;
         var rightDir = Quaternion.Euler(0, _angle * 0.5f, 0) * transform.forward;
 
-        Gizmos.color = FieldOfView.CanSeeTarget(radius: _range, angle: _angle, origin: transform, target: _currentTarget.ThisTransform) ? Color.red : Color.white;
+        Gizmos.color = FieldOfView.CanSeeTarget(radius: _range, angle: _angle, origin: transform, target: _currentTarget.Position) ? Color.red : Color.white;
         Gizmos.DrawRay(transform.position, leftDir.normalized * _range);
         Gizmos.DrawRay(transform.position, rightDir.normalized * _range);
     }

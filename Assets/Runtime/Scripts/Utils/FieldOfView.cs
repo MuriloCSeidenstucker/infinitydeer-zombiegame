@@ -2,11 +2,11 @@ using UnityEngine;
 
 public static class FieldOfView
 {
-    public static bool CanSeeTarget(float radius, float angle, Transform origin, Transform target)
+    public static bool CanSeeTarget(float radius, float angle, Transform origin, Vector3 target)
     {
-        if (origin == null || target == null) return false;
+        if (origin == null) return false;
 
-        Vector3 toTarget = (target.position - origin.position);
+        Vector3 toTarget = (target - origin.position);
         if (toTarget.sqrMagnitude > radius * radius) return false;
 
         float dot = Vector3.Dot(toTarget, origin.forward);

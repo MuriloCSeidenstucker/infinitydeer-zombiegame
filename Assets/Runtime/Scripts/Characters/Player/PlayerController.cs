@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -6,6 +7,15 @@ public class PlayerController : MonoBehaviour
     private PlayerInput _playerInput;
     private GunController _gunController;
     private AutoAim _autoAim;
+    private HandleDamage _handleDamage;
+    private Collider _collider;
+    private IDamageable _damageable;
+
+    public Vector3 CurrentVelocity => _playerMovement.CurrentVelocity;
+    public int Health => _handleDamage.Health;
+    public int DefaultHealth => _handleDamage.DefaultHealth;
+
+    public event Action PlayerDeathEvent;
 
     private void Awake()
     {
@@ -13,6 +23,11 @@ public class PlayerController : MonoBehaviour
         _playerInput = GetComponent<PlayerInput>();
         _gunController = GetComponent<GunController>();
         _autoAim = GetComponent<AutoAim>();
+        _handleDamage = GetComponent<HandleDamage>();
+        _collider = GetComponent<Collider>();
+
+        _damageable = GetComponent<IDamageable>();
+        _damageable.DeathEvent += OnDeath;
     }
 
     private void Update()
@@ -28,5 +43,21 @@ public class PlayerController : MonoBehaviour
         {
             _gunController.Shoot();
         }
+    }
+
+    private void OnDeath()
+    {
+        _playerMovement.StopImmediately();
+        _collider.enabled = false;
+        enabled = false;
+        
+        PlayerDeathEvent?.Invoke();
+    }
+
+    private void OnDestroy()
+    {
+        if (_damageable == null) return;
+
+        _damageable.DeathEvent -= OnDeath;
     }
 }

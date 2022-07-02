@@ -4,10 +4,11 @@ public class GunController : MonoBehaviour
 {
     [SerializeField] private Transform _muzzle;
     [SerializeField] private BulletTrail _bulletTrail;
-    [SerializeField] private float rateOfFire = 6.0f;
+    [SerializeField] private float _rateOfFire = 6.0f;
+    [SerializeField] private int _gunDamage = 50;
 
     private AutoAim _autoAim;
-    private float fireCooldown = 0f;
+    private float _fireCooldown = 0f;
 
     private void Awake()
     {
@@ -16,20 +17,20 @@ public class GunController : MonoBehaviour
 
     private void Update()
     {
-        fireCooldown -= Time.deltaTime;
+        _fireCooldown -= Time.deltaTime;
     }
 
     public void Shoot()
     {
-        if (fireCooldown > 0f) return;
+        if (_fireCooldown > 0f) return;
 
         if (!_autoAim.TryGetTarget(out var nearTarget)) return;
 
-        fireCooldown = 1f / rateOfFire;
+        _fireCooldown = 1f / _rateOfFire;
 
         //TODO: Implement ObjectPool.
         var trail = Instantiate(_bulletTrail, _muzzle.position, transform.rotation);
         trail.SetTargetPosition(nearTarget.Position);
-        nearTarget.TakeDamage(1);
+        nearTarget.TakeDamage(_gunDamage);
     }
 }

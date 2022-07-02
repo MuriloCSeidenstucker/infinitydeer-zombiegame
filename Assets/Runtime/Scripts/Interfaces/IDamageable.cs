@@ -1,13 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 public interface IDamageable
 {
-    int Health { get; }
-    Transform ThisTransform { get; }
-    Vector3 Position { get; }
+    event Action DeathEvent;
 
+    int Layer { get; }
+    int Health { get; }
+    Vector3 Position { get; }
 
     void TakeDamage(int damage);
 }
