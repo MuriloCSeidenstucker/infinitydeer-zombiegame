@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4868256201905178}
   - component: {fileID: 33437349186202034}
   - component: {fileID: 23120998465446696}
-  - component: {fileID: 1201687280194620426}
+  - component: {fileID: 4591716014806494927}
   m_Layer: 0
   m_Name: Terra_02
   m_TagString: Untagged
@@ -84,8 +84,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &1201687280194620426
-BoxCollider:
+--- !u!135 &4591716014806494927
+SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -95,5 +95,5 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 15, y: 0.36078823, z: 15.000004}
-  m_Center: {x: -7.5, y: -0.18039411, z: -7.500002}
+  m_Radius: 2.79
+  m_Center: {x: -4.94, y: -0.18039411, z: -4.28}

@@ -6,7 +6,7 @@ public class WaveSpawner : MonoBehaviour
     [SerializeField] private PlayerController _player;
     [SerializeField] private GameMode _gameMode;
     [SerializeField] private Transform _enemiesPoolRoot;
-    [SerializeField] private Transform[] _respawnPoints;
+    [SerializeField] private SpawnPoint[] _spawnPoints;
     //[SerializeField] private EnemyController[] _enemiesPrefabs;
     [SerializeField] private float _timeBetweenWaves = 15.0f;
     [SerializeField] private int _initialWaveValue = 10;
@@ -65,7 +65,7 @@ public class WaveSpawner : MonoBehaviour
         {
             if (_currentWaveEnemies.Count == 0)
             {
-                _currentWaveLevel++;
+                UpdateWaveLevel();
                 _waveInProgress = false;
                 _waveComing = true;
             }
@@ -77,13 +77,24 @@ public class WaveSpawner : MonoBehaviour
         while (_currentWaveValue > 0)
         {
             //EnemyController enemy = _enemiesPrefabs[Random.Range(0, _enemiesPrefabs.Length)];
-            Transform randonPoint = _respawnPoints[Random.Range(0, _respawnPoints.Length)];
+            SpawnPoint randomPoint = _spawnPoints[Random.Range(0, _spawnPoints.Length)];
+            Vector3 randomPosition = randomPoint.GeneratePosition();
 
-            EnemyController enemyInstance = _enemiesPool.GetFromPool(randonPoint.position, Quaternion.identity, _enemiesPoolRoot);
+            EnemyController enemyInstance = _enemiesPool.GetFromPool(randomPosition, Quaternion.identity, _enemiesPoolRoot);
 
             _currentWaveEnemies.Add(enemyInstance);
             _currentWaveValue -= enemyInstance.Cost;
         }
+    }
+
+    private void UpdateWaveLevel(int value = 1)
+    {
+        if (value > 1)
+        {
+            _currentWaveLevel = value;
+            return;
+        }
+        _currentWaveLevel += value;
     }
 
     public void RemoveFromCurrentWave(EnemyController enemy)
@@ -100,5 +111,6 @@ public class WaveSpawner : MonoBehaviour
     }
 
     public void IncrementScore() => _gameMode.IncrementScore();
-    public void Activate() => ActivateWaves = true;
+    public void SetWave(int value) => UpdateWaveLevel(value);
+    public void Activate(bool value) => ActivateWaves = value;
 }

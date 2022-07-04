@@ -4,6 +4,7 @@ using UnityEngine;
 public class HandleDamage : MonoBehaviour, IDamageable
 {
     [SerializeField] private int _defaultHealth = 100;
+    [SerializeField] private AudioClip _damageClip;
 
     private int _currentHealth;
 
@@ -27,6 +28,10 @@ public class HandleDamage : MonoBehaviour, IDamageable
     public void TakeDamage(int damage)
     {
         Health -= damage;
+        if (_damageClip != null)
+        {
+            Singleton.Instance.AudioService.PlayAudioCue(_damageClip);
+        }
 
         if (Health <= 0) Die();
     }

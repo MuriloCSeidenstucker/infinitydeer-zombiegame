@@ -18,20 +18,35 @@ public class GameMode : MonoBehaviour
     [SerializeField] private GameObject _mainCamera;
     [SerializeField] private GameObject _menuCamera;
 
+    [Header("Tests")]
+    [SerializeField] private bool _testModeOn = false;
+    [Min(-1)] [SerializeField] private int _frameRate = -1;
+    [SerializeField] private bool _enableCheats = false;
+    [SerializeField] private bool _activateWaves = false;
+    [Min(1)] [SerializeField] private int _wave = 1;
+
     public int Score { get; private set; }
     public SaveGameData CurrentSave => _gameSaver.CurrentSave;
 
     private void Awake()
     {
-        Application.targetFrameRate = -1;
+        Application.targetFrameRate = _frameRate;
         _mainCamera.SetActive(false);
         _menuCamera.SetActive(true);
         _gameSaver.LoadGame();
         _screenController.ShowScreen<MenuScreen>();
         _musicPlayer.PlayMenuMusic();
-        _player.DisablePlayer();
+        _player.EnablePlayer(false);
 
         _player.PlayerDeathEvent += OnPlayerDeath;
+    }
+
+    private void OnValidate()
+    {
+        if (!_enableCheats) return;
+
+        _waveSpawner.Activate(_activateWaves);
+        _waveSpawner.SetWave(_wave);
     }
 
     private IEnumerator ReloadGame()
@@ -63,8 +78,8 @@ public class GameMode : MonoBehaviour
         _screenController.ShowScreen<InGameHudScreen>();
         _musicPlayer.PlayMainMusic();
         yield return new WaitForSeconds(_startGameTime);
-        _waveSpawner.Activate();
-        _player.EnablePlayer();
+        _waveSpawner.Activate(true);
+        _player.EnablePlayer(true);
         _playerAnimationController.OnStartGame();
     }
 
@@ -78,6 +93,17 @@ public class GameMode : MonoBehaviour
 
     public void StartGame()
     {
+        if (_testModeOn)
+        {
+            _mainCamera.SetActive(true);
+            _menuCamera.SetActive(false);
+            _screenController.ShowScreen<InGameHudScreen>();
+            _musicPlayer.PlayMainMusic();
+            _player.EnablePlayer(true);
+            _playerAnimationController.OnStartGame();
+            return;
+        }
+
         StartCoroutine(StartGameCor());
     }
 

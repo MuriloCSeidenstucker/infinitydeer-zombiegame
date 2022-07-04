@@ -4,6 +4,7 @@ public class GunController : MonoBehaviour
 {
     [SerializeField] private Transform _muzzle;
     [SerializeField] private BulletTrail _bulletTrail;
+    [SerializeField] private AudioClip _fireClip;
     [SerializeField] private float _rateOfFire = 6.0f;
     [SerializeField] private int _gunDamage = 50;
 
@@ -30,6 +31,7 @@ public class GunController : MonoBehaviour
 
         //TODO: Implement ObjectPool.
         var trail = Instantiate(_bulletTrail, _muzzle.position, transform.rotation);
+        Singleton.Instance.AudioService.PlayAudioCueOneShot(_fireClip);
         trail.SetTargetPosition(nearTarget.Position);
         nearTarget.TakeDamage(_gunDamage);
     }

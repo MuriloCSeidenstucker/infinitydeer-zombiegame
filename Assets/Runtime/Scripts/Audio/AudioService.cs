@@ -11,7 +11,7 @@ public class AudioService : MonoBehaviour
         _sfxSource.loop = false;
     }
 
-    public void PlayAudioCue(AudioClip clip)
+    public void PlayAudioCueOneShot(AudioClip clip)
     {
         if (_sfxSource.outputAudioMixerGroup == null)
         {
@@ -20,6 +20,19 @@ public class AudioService : MonoBehaviour
         else
         {
             _sfxSource.PlayOneShot(clip);
+        }
+    }
+
+    public void PlayAudioCue(AudioClip clip)
+    {
+        if (_sfxSource.outputAudioMixerGroup == null)
+        {
+            Debug.LogError("MissingComponentError: There is no \"AudioMixerGroup\" attached to the \"AudioSource\" game object.");
+        }
+        else
+        {
+            _sfxSource.clip = clip;
+            _sfxSource.Play();
         }
     }
 

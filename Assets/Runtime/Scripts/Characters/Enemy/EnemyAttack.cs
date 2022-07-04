@@ -6,6 +6,7 @@ using UnityEngine;
 public class EnemyAttack : TriggerDamage
 {
     [SerializeField] private float _attackTime = 1f;
+    [SerializeField] private AudioClip[] _attackClips;
 
     private Collider _collider;
 
@@ -24,6 +25,11 @@ public class EnemyAttack : TriggerDamage
         if (IsAttacking) return;
         
         IsAttacking = true;
+        if (_attackClips.Length > 0)
+        {
+            int index = Random.Range(0, _attackClips.Length - 1);
+            Singleton.Instance.AudioService.PlayAudioCueOneShot(_attackClips[index]);
+        }
     }
 
     public void WaitForAnimationThenAttack()

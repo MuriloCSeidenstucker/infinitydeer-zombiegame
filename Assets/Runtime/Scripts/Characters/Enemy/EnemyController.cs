@@ -1,11 +1,13 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.AI;
 
 public class EnemyController : MonoBehaviour, IPooledObject
 {
     [SerializeField] private EnemyAttack _enemyAttack;
     [SerializeField] private float _attackRange = 2.5f;
+    [SerializeField] private AudioClip[] _deathClips;
 
     [Header("Wading Parameters")]
     [SerializeField] private int _randomDist = 5;
@@ -18,7 +20,7 @@ public class EnemyController : MonoBehaviour, IPooledObject
     private Collider _collider;
     private IDamageable _damageable;
     private Vector3 _anywhere = Vector3.zero;
-    Vector3 _toAnywhere = Vector3.zero;
+    private Vector3 _toAnywhere = Vector3.zero;
     private bool _isAggressive = false;
     private bool _wadingStarted = false;
     private bool _isDead = false;
@@ -53,7 +55,8 @@ public class EnemyController : MonoBehaviour, IPooledObject
 
     private void Hunting()
     {
-        Vector3 toPlayer = _player.transform.position - transform.position;
+        Vector3 toPlayer = (_player.transform.position - transform.position).WithAxis(Axis.Y, 0f);
+
         _enemyMovement.ProcessRotationInput(toPlayer);
 
         if (Vector3.Distance(_player.transform.position, transform.position) <= _attackRange)
@@ -99,6 +102,11 @@ public class EnemyController : MonoBehaviour, IPooledObject
         if (!IsDead)
         {
             _enemyAnimationController.OnDeath();
+            if (_deathClips.Length > 0)
+            {
+                int index = Random.Range(0, _deathClips.Length - 1);
+                Singleton.Instance.AudioService.PlayAudioCue(_deathClips[index]);
+            }
             StartCoroutine(DeathCor());
         }
     }

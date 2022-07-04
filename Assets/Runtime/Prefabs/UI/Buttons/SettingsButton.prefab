@@ -7,9 +7,45 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 277811916314063649, guid: 261ae062a73ab8e4b9d5af868b1a36d1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 277811916314063649, guid: 261ae062a73ab8e4b9d5af868b1a36d1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 277811916314063649, guid: 261ae062a73ab8e4b9d5af868b1a36d1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 277811916314063649, guid: 261ae062a73ab8e4b9d5af868b1a36d1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnSettingsButtonPress
+      objectReference: {fileID: 0}
+    - target: {fileID: 277811916314063649, guid: 261ae062a73ab8e4b9d5af868b1a36d1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: PlayAudioOnButtonPress
+      objectReference: {fileID: 0}
+    - target: {fileID: 277811916314063649, guid: 261ae062a73ab8e4b9d5af868b1a36d1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: MenuScreen, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 277811916314063649, guid: 261ae062a73ab8e4b9d5af868b1a36d1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: ScreenController, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 277811916314063649, guid: 261ae062a73ab8e4b9d5af868b1a36d1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 5217163171327217812, guid: 261ae062a73ab8e4b9d5af868b1a36d1, type: 3}
       propertyPath: m_text
       value: SETTINGS
+      objectReference: {fileID: 0}
+    - target: {fileID: 5217163171327217814, guid: 261ae062a73ab8e4b9d5af868b1a36d1, type: 3}
+      propertyPath: m_Name
+      value: ExitText
       objectReference: {fileID: 0}
     - target: {fileID: 5217163171327217815, guid: 261ae062a73ab8e4b9d5af868b1a36d1, type: 3}
       propertyPath: m_SizeDelta.x
@@ -101,7 +137,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6743716407056258882, guid: 261ae062a73ab8e4b9d5af868b1a36d1, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -75
+      value: -166.6
       objectReference: {fileID: 0}
     - target: {fileID: 6743716407056258882, guid: 261ae062a73ab8e4b9d5af868b1a36d1, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -117,7 +153,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8725970561951255222, guid: 261ae062a73ab8e4b9d5af868b1a36d1, type: 3}
       propertyPath: m_Name
-      value: SettingsButton
+      value: ExitButton
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 261ae062a73ab8e4b9d5af868b1a36d1, type: 3}
